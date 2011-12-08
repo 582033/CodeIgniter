@@ -30,13 +30,16 @@ class CI_Smarty extends Smarty {
 
 	function CI_Smarty()
 	{
-		parent::Smarty();
+		parent::__construct();
 
-		$this->template_dir = APPPATH . "views";
-		$this->config_dir = APPPATH . 'smarty/config';
-		$this->plugins_dir[] = BASEPATH . "smarty/plugins";
-		$this->cache_dir = APPPATH . "var/smarty_cache";
-		$this->compile_dir = APPPATH . "var/smarty_templates_c";
+		$this->setTemplateDir(APPPATH . "views")
+			->setConfigDir(APPPATH . 'smarty/config')
+			->setCacheDir(APPPATH . "var/smarty_cache")
+			->setCompileDir(APPPATH . "var/smarty_templates_c")
+			->addPluginsDir(array(
+					BASEPATH . "/third_party/smarty_plugins",
+					APPPATH . "third_party/smarty_plugins",
+					));
 		$this->debugging = get_instance()->config->item('smarty_debug');
 		$this->assign( 'APPPATH', APPPATH );
 		$this->assign( 'BASEPATH', BASEPATH );
@@ -77,7 +80,7 @@ class CI_Smarty extends Smarty {
 			}
 			else {
 				$CI =& get_instance();
-				$CI->output->final_output = $this->fetch($template);
+				$CI->output->append_output($this->fetch($template));
 				return;
 			}
 		}
