@@ -41,6 +41,7 @@ class CI_Smarty extends Smarty {
 					APPPATH . "third_party/smarty_plugins",
 					));
 		$this->debugging = get_instance()->config->item('smarty_debug');
+		$this->error_reporting = E_ALL & ~E_NOTICE;
 		$this->assign( 'APPPATH', APPPATH );
 		$this->assign( 'BASEPATH', BASEPATH );
 
